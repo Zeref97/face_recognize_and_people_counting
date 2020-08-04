@@ -23,6 +23,7 @@ import cv2
 import os #To handle directories 
 from PIL import Image #Pillow lib for handling images 
 import sys
+import pandas as pd
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -149,6 +150,14 @@ while True:
 			if conf>=0:
 				font = cv2.FONT_HERSHEY_SIMPLEX #Font style for the name 
 				name = FACES[id_] #Get the name from the List using ID number 
+				# Đọc file csv
+				df = pd.read_csv("diemdanh.csv")
+				value = str(df.loc[df["ID"]==int(id_), "Điểm danh"]).split()[1].lower()
+				# Kiểm tra xem đã có điểm danh chưa, nếu có bỏ qua
+				if(value == 'nan'):
+					df.loc[df["ID"]==int(id_), "Điểm danh"]='x'
+					df.to_csv("diemdanh.csv", index=False)
+
 				cv2.putText(img, name, (x,y), font, 1, (0,0,255), 2)
 			cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
 
