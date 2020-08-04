@@ -113,6 +113,7 @@ while True:
 	# img = cv2.resize(frame, (720, 1080))
 	frame = imutils.resize(frame, width=500)
 	img = frame.copy()
+	rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 	
 
 
@@ -152,7 +153,7 @@ while True:
 			cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
 
 		cv2.imshow('Preview',img) #Display the Video
-		rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+		
 		# set the status and initialize our new set of object trackers
 		status = "Detecting"
 		trackers = []
@@ -276,11 +277,18 @@ while True:
 
 	# construct a tuple of information we will be displaying on the
 	# frame
+	people_in_room = totalDown - totalUp
 	info = [
+		("People in room", people_in_room),
 		("Up", totalUp),
 		("Down", totalDown),
 		("Status", status),
 	]
+	# info = [
+	# 	("Up", totalUp),
+	# 	("Down", totalDown),
+	# 	("Status", status),
+	# ]
 
 	# loop over the info tuples and draw them on our frame
 	for (i, (k, v)) in enumerate(info):
